@@ -8,10 +8,20 @@ Works on Linux, macOS, and Windows which requires Python **3.10** and above
 
 # Installing
 
-```pip install mdsnake```
+```
+pip install mdsnake
+```
 
 # Commands
 
-```mdsnake view README.md``` views the markdown file in your console
+Views the markdown file in your console
 
-```mdsnake syntax``` creates a table of markdown syntax so you don't forget
+```
+mdsnake view README.md
+```
+
+Creates a table of markdown syntax so you don't forget
+
+```
+mdsnake syntax
+```
