@@ -1,3 +1,6 @@
+![pylint rated 10.00/10](https://img.shields.io/badge/pylint-10.00-green)
+![version 0.2.1](https://img.shields.io/badge/version-v0.2.1-green)
+
 # mdsnake
 
 A library with a cli, that can view markdown files, without having to commit to github. If you forget markdown syntax as well, it will help you with that!

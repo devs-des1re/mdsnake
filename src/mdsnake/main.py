@@ -10,6 +10,13 @@ from rich.table import Table
 app = typer.Typer()
 console = Console()
 
+def error_message(error: str):
+    """
+    Prints a clean error statment
+    :param error:
+    """
+    raise typer.BadParameter(error)
+
 @app.command()
 def view(file: str):
     """
@@ -23,6 +30,8 @@ def view(file: str):
         with open(file, "r", encoding="utf-8") as f:
             markdown = Markdown(f.read())
             console.print(markdown)
+    else:
+        error_message("File selected is none or invalid.")
 
 @app.command()
 def syntax():
