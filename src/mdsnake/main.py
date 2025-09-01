@@ -44,7 +44,7 @@ def convert(file: str, filename: str):
     :param file:
     :filetype str:
     """
-    if filename.split(".")[1] not in {"html", "pdf"}:
+    if filename.split(".")[1].lower() not in {"html", "pdf"}:
         error_message("The file type you have selected is invalid.")
     else:
         cwd = pathlib.Path.cwd()
