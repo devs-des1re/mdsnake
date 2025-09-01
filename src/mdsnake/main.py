@@ -21,7 +21,10 @@ def error_message(error: str):
     raise typer.BadParameter(error)
 
 @app.command()
-def view(file: str, web: Annotated[bool, typer.Option(help="View markdown file on a localhost")] = False):
+def view(
+    file: str,
+    web: Annotated[bool, typer.Option(help="View markdown file on a localhost")] = False
+):
     """
     Views markdown files in the console
     :param file:
