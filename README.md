@@ -29,6 +29,13 @@ Views the markdown file on a localhost
 mdsnake view README.md --web
 ```
 
+Converts markdown files to html/pdf
+
+```
+mdsnake view README.md html
+mdsnake view README.md pdf
+```
+
 Creates a table of markdown syntax so you don't forget
 
 ```
