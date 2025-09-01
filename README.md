@@ -1,5 +1,5 @@
 ![pylint rated 10.00/10](https://img.shields.io/badge/pylint-10.00-green)
-![version 0.1.1](https://img.shields.io/badge/version-v0.1.1-green)
+![version 0.1.3](https://img.shields.io/badge/version-v0.1.1-green)
 
 # mdsnake
 
@@ -21,6 +21,12 @@ Views the markdown file in your console
 
 ```
 mdsnake view README.md
+```
+
+Views the markdown file on a localhost
+
+```
+mdsnake view README.md --web
 ```
 
 Creates a table of markdown syntax so you don't forget
