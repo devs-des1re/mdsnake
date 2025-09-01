@@ -12,11 +12,11 @@ def convert_md(markdown_text: str, filename: str, location: str):
     :param filename:
     :param location:
     """
-    if filename.split(".")[1] == "html":
+    if filename.split(".")[1].lower() == "html":
         converted_markdown = markdown(markdown_text, extensions=["fenced_code", "tables"])
         with open(location / filename, "w", encoding="utf-8") as file:
             file.write(converted_markdown)
-    elif filename.split(".")[1] == "pdf":
+    elif filename.split(".")[1].lower() == "pdf":
         pdf = MarkdownPdf()
         pdf.meta["title"] = "Markdown"
         pdf.add_section(Section(markdown_text, toc=False))
