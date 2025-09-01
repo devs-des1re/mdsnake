@@ -1,5 +1,5 @@
 ![pylint rated 10.00/10](https://img.shields.io/badge/pylint-10.00-green)
-![version 0.1.3](https://img.shields.io/badge/version-v0.1.1-green)
+![version 0.1.3](https://img.shields.io/badge/version-v0.1.3-green)
 
 # mdsnake
 
