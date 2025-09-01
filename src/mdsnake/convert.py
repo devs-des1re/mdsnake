@@ -23,4 +23,3 @@ def convert_md(markdown_text: str, filetype: str, filename: str):
         pdf.save(filename)
 
     success_message("Successfully converted!")
-    
