@@ -8,17 +8,12 @@ from rich.markdown import Markdown
 from rich.table import Table
 from typing_extensions import Annotated
 
+from .dialogs import error_message
 from .web import run
+from .convert import convert_md
 
 app = typer.Typer()
 console = Console()
-
-def error_message(error: str):
-    """
-    Prints a clean error statment
-    :param error:
-    """
-    raise typer.BadParameter(error)
 
 @app.command()
 def view(
@@ -41,6 +36,26 @@ def view(
                 console.print(Markdown(md))
     else:
         error_message("File selected is none or invalid.")
+
+@app.command()
+def convert(file: str, filetype: str):
+    """
+    Converts markdown to different file type
+    :param file:
+    :filetype str:
+    """
+    if filetype.lower() not in {"html", "pdf"}:
+        error_message("The file type you have selected is invalid.")
+    else:
+        cwd = pathlib.Path.cwd()
+        file = os.path.join(cwd, file)
+
+        if os.path.isfile(file) and file.endswith(".md"):
+            with open(file, "r", encoding="utf-8") as f:
+                md = f.read()
+                convert_md(md, filetype.lower(), cwd / f"{file.split('.')[0]}.{filetype.lower()}")
+        else:
+            error_message("File selected is none or invalid.")
 
 @app.command()
 def syntax():

@@ -9,14 +9,11 @@ build-backend = "setuptools.build_meta"
 name = "mdsnake" # Project Name
 description = "Views markdown text inside of the terminal" # Project Description
 readme = "README.md"
-version = "0.2.0" # Project Version
+version = "0.2.1" # Project Version
 requires-python = ">=3.10" # Python Requirement
 license = "MIT" # Project License
 license-files = ["LICENSE"]
-authors = [
-    {name="devs_des1re", email="arjunbrij8811@gmail.com"},
-    {name="Eivind Teig", email="eivind.teig@gmail.com"},
-] # Authors
+authors = [{name="devs_des1re", email="arjunbrij8811@gmail.com"}] # Authors
 maintainers = [
     {name="devs_des1re", email="arjunbrij8811@gmail.com"},
     {name="Eivind Teig", email="eivind.teig@gmail.com"},
@@ -49,6 +46,7 @@ dependencies = [
     "typer~=0.16",
     "Flask~=3.1",
     "Markdown~=3.8",
+    "markdown-pdf~=1.8",
 ]
 
 [project.scripts]
