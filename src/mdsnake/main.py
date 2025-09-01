@@ -6,6 +6,9 @@ import typer
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.table import Table
+from typing_extensions import Annotated
+
+from .web import run
 
 app = typer.Typer()
 console = Console()
@@ -18,7 +21,7 @@ def error_message(error: str):
     raise typer.BadParameter(error)
 
 @app.command()
-def view(file: str):
+def view(file: str, web: Annotated[bool, typer.Option(help="View markdown file on a localhost")] = False):
     """
     Views markdown files in the console
     :param file:
@@ -28,8 +31,11 @@ def view(file: str):
 
     if os.path.isfile(file) and file.endswith(".md"):
         with open(file, "r", encoding="utf-8") as f:
-            markdown = Markdown(f.read())
-            console.print(markdown)
+            md = f.read()
+            if web:
+                run(md)
+            else:
+                console.print(Markdown(md))
     else:
         error_message("File selected is none or invalid.")
 
