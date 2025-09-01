@@ -4,7 +4,7 @@ from markdown import markdown
 
 from .dialogs import success_message
 
-def convert_md(markdown_text: str, filetype: str, filename: str):
+def convert_md(markdown_text: str, filename: str, location: str):
     """
     Converts markdown to HTML or PDFs
     :param md:
@@ -12,14 +12,14 @@ def convert_md(markdown_text: str, filetype: str, filename: str):
     :param filename:
     :param location:
     """
-    if filetype.lower() == "html":
+    if filename.split(".")[1] == "html":
         converted_markdown = markdown(markdown_text, extensions=["fenced_code", "tables"])
-        with open(filename, "w", encoding="utf-8") as file:
+        with open(location / filename, "w", encoding="utf-8") as file:
             file.write(converted_markdown)
-    elif filetype.lower() == "pdf":
+    elif filename.split(".")[1] == "pdf":
         pdf = MarkdownPdf()
         pdf.meta["title"] = "Markdown"
         pdf.add_section(Section(markdown_text, toc=False))
-        pdf.save(filename)
+        pdf.save(location / filename)
 
     success_message("Successfully converted!")

@@ -38,13 +38,13 @@ def view(
         error_message("File selected is none or invalid.")
 
 @app.command()
-def convert(file: str, filetype: str):
+def convert(file: str, filename: str):
     """
     Converts markdown to different file type
     :param file:
     :filetype str:
     """
-    if filetype.lower() not in {"html", "pdf"}:
+    if filename.split(".")[1] not in {"html", "pdf"}:
         error_message("The file type you have selected is invalid.")
     else:
         cwd = pathlib.Path.cwd()
@@ -53,7 +53,7 @@ def convert(file: str, filetype: str):
         if os.path.isfile(file) and file.endswith(".md"):
             with open(file, "r", encoding="utf-8") as f:
                 md = f.read()
-                convert_md(md, filetype.lower(), cwd / f"{file.split('.')[0]}.{filetype.lower()}")
+                convert_md(md, filename, cwd)
         else:
             error_message("File selected is none or invalid.")
 
