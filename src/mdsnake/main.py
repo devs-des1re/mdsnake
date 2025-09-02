@@ -62,8 +62,8 @@ def convert(file: str, extension: str, filename: Annotated[str, typer.Option(hel
             if file.endswith(".md"):
                 with open(file, "r", encoding="utf-8") as f:
                     text = f.read()
-                if filename != "":
-                    convert_file(text, extension, file.replace("md", extension))
+                if filename == "":
+                    convert_file(text, extension, file.replace("md", extension.lower()))
                 else:
                     convert_file(text, extension, cwd / filename)
             else:
