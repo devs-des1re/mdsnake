@@ -1,5 +1,5 @@
-"""Import functions"""
+"""Import Libraries"""
 try:
     from .main import *
-except ImportError as error:
+except ImportError:
     from .main import *

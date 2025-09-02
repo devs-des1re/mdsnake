@@ -5,116 +5,78 @@ import pathlib
 import typer
 from rich.console import Console
 from rich.markdown import Markdown
-from rich.table import Table
 from typing_extensions import Annotated
 
-from .dialogs import error_message
-from .web import run
-from .convert import convert_md
+from .convert import convert_file
+from .dialog import print_error, print_syntax
+from .localhost import run_localhost
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 console = Console()
 
+"""Commands"""
 @app.command()
-def view(
-    file: str,
-    web: Annotated[bool, typer.Option(help="View markdown file on a localhost")] = False
-):
+def view(file: str, web: Annotated[bool, typer.Option(help="View markdown file on a localhost?")] = False):
     """
-    Views markdown files in the console
+    Views markdown files on the console or localhost
     :param file:
+    :option web:
     """
+
     cwd = pathlib.Path.cwd()
     file = os.path.join(cwd, file)
 
-    if os.path.isfile(file) and file.endswith(".md"):
-        with open(file, "r", encoding="utf-8") as f:
-            md = f.read()
-            if web:
-                run(md)
-            else:
-                console.print(Markdown(md))
+    if os.path.isfile(file):
+        if file.endswith(".md"):
+            with open(file, "r", encoding="utf-8") as f:
+                text = f.read()
+            try:
+                if web:
+                    run_localhost(text)
+                else:
+                    md = Markdown(text)
+                    console.print(md)
+            except Exception as error:
+                print_error(f"There was an error while reading the markdown file. ({error})")
+        else:
+            print_error("The file you have selected is not a markdown file.")
     else:
-        error_message("File selected is none or invalid.")
+        print_error("The file you have selected is non-existent.")
 
 @app.command()
-def convert(file: str, filename: str):
+def convert(file: str, extension: str, filename: Annotated[str, typer.Option(help="Change the name of the output file")] = ""):
     """
-    Converts markdown to different file type
+    Converts markdown files to pdf/html files
     :param file:
-    :filetype str:
+    :param filetype:
+    :param filename:
     """
-    if filename.split(".")[1].lower() not in {"html", "pdf"}:
-        error_message("The file type you have selected is invalid.")
+
+    if extension.lower() not in {"html", "pdf"}:
+        print_error("You have selected an invalid extension, the options are (html, pdf)")
     else:
         cwd = pathlib.Path.cwd()
         file = os.path.join(cwd, file)
 
-        if os.path.isfile(file) and file.endswith(".md"):
-            with open(file, "r", encoding="utf-8") as f:
-                md = f.read()
-                convert_md(md, filename, cwd)
+        if os.path.isfile(file):
+            if file.endswith(".md"):
+                with open(file, "r", encoding="utf-8") as f:
+                    text = f.read()
+                if filename != "":
+                    convert_file(text, extension, file.replace("md", extension))
+                else:
+                    convert_file(text, extension, cwd / filename)
+            else:
+                print_error("The file you have is not a markdown file.")
         else:
-            error_message("File selected is none or invalid.")
+            print_error("The file you have selected is non-existent.")
 
 @app.command()
 def syntax():
     """
-    Shows a table of markdown syntax in the console
+    Shows a cheat sheet table of markdown syntax
     """
-    table = Table(title="Markdown Syntax", show_lines=True)
-
-    table.add_column("Element")
-    table.add_column("Syntax")
-
-    table.add_row("Heading", "# H1\n## H2\n### H3")
-    table.add_row("Bold", "**Bold Text**")
-    table.add_row("Italic", "*Italics*")
-    table.add_row("Blockquote", "> blockquote")
-    table.add_row("Ordered List", "1. First Item\n2. Second Item\n3. Third Item")
-    table.add_row("Unordered List", "- First Item\n- Second Item\n- Third Item")
-    table.add_row("Code", "`code`")
-    table.add_row("Horizontal Rule", "---")
-    table.add_row("Link", "[title](https://google.com/)")
-    table.add_row("Image", "![alt text](image.jpg)")
-    table.add_row("Table", """
-| Syntax | Description |
-| ----------- | ----------- |
-| Header | Title |
-| Paragraph | Text |
-""")
-    table.add_row("Fenced Code Block", """
-```
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
-""")
-    table.add_row("Footnote", """
-Here's a sentence with a footnote. [^1]
-
-[^1]: This is the footnote.
-""")
-    table.add_row("Heading Id", """
-### My Great Heading {#custom-id}
-""")
-    table.add_row("Definition List", """
-term
-: definition
-""")
-    table.add_row("Strikethrough", "~~The world is flat.~~")
-    table.add_row("Task List", """
-- [x] Write the press release
-- [ ] Update the website
-- [ ] Contact the media""")
-    table.add_row("Emoji", "That is so funny! :joy:")
-    table.add_row("Highlight", "I need to highlight these ==very important words==.")
-    table.add_row("Subscript", "H~2~O")
-    table.add_row("Superscript", "X^2^")
-
-    console.print(table)
+    print_syntax()
 
 if __name__ == "__main__":
     app()
