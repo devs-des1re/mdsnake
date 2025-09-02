@@ -1,25 +1,36 @@
 """Libraries"""
-from markdown_pdf import MarkdownPdf, Section
 from markdown import markdown
+from markdown_pdf import MarkdownPdf, Section
 
-from .dialogs import success_message
+from .dialog import print_success, print_error
 
-def convert_md(markdown_text: str, filename: str, location: str):
+def convert_file(markdown_text: str, extension: str, filename: str):
     """
-    Converts markdown to HTML or PDFs
-    :param md:
+    Converts markdown files to html/pdf files
+    :param markdown_text:
     :param filetype:
     :param filename:
-    :param location:
     """
-    if filename.split(".")[1].lower() == "html":
-        converted_markdown = markdown(markdown_text, extensions=["fenced_code", "tables"])
-        with open(location / filename, "w", encoding="utf-8") as file:
-            file.write(converted_markdown)
-    elif filename.split(".")[1].lower() == "pdf":
-        pdf = MarkdownPdf()
-        pdf.meta["title"] = "Markdown"
-        pdf.add_section(Section(markdown_text, toc=False))
-        pdf.save(location / filename)
+    if extension.lower() == "html":
+        try:
+            converted_markdown = markdown(markdown_text, extensions=["fenced_code", "tables"])
+        except Exception as error:
+            print_error(f"There was an error while converting the markdown file. ({error})")
+    elif extension.lower() == "pdf":
+        try:
+            pdf = MarkdownPdf()
+            pdf.meta["title"] = "Markdown"
+            pdf.add_section(Section(markdown_text, toc=False))
+        except Exception as error:
+            print_error(f"There was an error while converting the markdown file. ({error})")
 
-    success_message("Successfully converted!")
+    try:
+        if extension.lower() == "html":
+            with open(filename, "w", encoding="utf-8") as file:
+                file.write(converted_markdown)
+        elif extension.lower() == "pdf":
+            pdf.save(filename)
+    except Exception as error:
+        print_error(f"There was an error while saving the file. ({error})")
+
+    print_success("The file you have selected has been successfully converted!")

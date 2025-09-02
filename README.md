@@ -1,5 +1,5 @@
 ![pylint rated 10.00/10](https://img.shields.io/badge/pylint-10.00-green)
-![version 0.4.0](https://img.shields.io/badge/version-v0.4.0-green)
+![version 0.4.1](https://img.shields.io/badge/version-v0.4.1-green)
 
 # mdsnake
 
@@ -31,9 +31,11 @@ mdsnake view README.md --web
 
 Converts markdown files to html/pdf
 
+**Note:** Setting a name is optional
+
 ```
-mdsnake view README.md output.html
-mdsnake view README.md output.pdf
+mdsnake view README.md --name output.pdf
+mdsnake view README.md --name output.pdf
 ```
 
 Creates a table of markdown syntax so you don't forget
