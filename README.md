@@ -34,8 +34,8 @@ Converts markdown files to html/pdf
 **Note:** Setting a name is optional
 
 ```
-mdsnake view README.md --name output.pdf
-mdsnake view README.md --name output.pdf
+mdsnake view README.md html --name output.pdf
+mdsnake view README.md html --name output.pdf
 ```
 
 Creates a table of markdown syntax so you don't forget
