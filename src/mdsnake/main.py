@@ -44,15 +44,14 @@ def view(file: str, web: Annotated[bool, typer.Option(help="View markdown file o
         print_error("The file you have selected is non-existent.")
 
 @app.command()
-def convert(file: str, extension: str, filename: Annotated[str, typer.Option(help="Change the name of the output file")] = ""):
+def convert(file: str, filename: str):
     """
     Converts markdown files to pdf/html files
     :param file:
-    :param filetype:
     :param filename:
     """
 
-    if extension.lower() not in {"html", "pdf"}:
+    if filename.split(".")[1].lower() not in {"html", "pdf"}:
         print_error("You have selected an invalid extension, the options are (html, pdf)")
     else:
         cwd = pathlib.Path.cwd()
@@ -62,10 +61,7 @@ def convert(file: str, extension: str, filename: Annotated[str, typer.Option(hel
             if file.endswith(".md"):
                 with open(file, "r", encoding="utf-8") as f:
                     text = f.read()
-                if filename == "":
-                    convert_file(text, extension, file.replace("md", extension.lower()))
-                else:
-                    convert_file(text, extension, cwd / filename)
+                convert_file(text, filename, cwd)
             else:
                 print_error("The file you have is not a markdown file.")
         else:
